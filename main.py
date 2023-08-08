@@ -128,9 +128,8 @@ for column in range(columns_num):
                 worksheet.write(row, column, days, down_cell_format)
 
         # Empty column
-        elif row == 3:
-            cell_format = workbook.add_format()
-            cell_format
+        elif column == 3:
+            worksheet.write(row, column, "", empty_format)
 
 
 workbook.close()
