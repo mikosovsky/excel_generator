@@ -2,6 +2,8 @@ import calendar
 import datetime
 import xlsxwriter
 
+start_date = datetime.datetime(1899, 12, 30)
+
 # Requesting for month and year
 month = int(input("Podaj miesiąc: "))
 year = int(input("Podaj rok: "))
@@ -39,8 +41,25 @@ for row in range(rows_num):
             if column == 0:
                 worksheet.write(column, row, "Tydz. roku")
             else:
-                week_num = dates[column - 1].strftime("%V")
-                worksheet.write(column, row, week_num)
+
+                worksheet.write(column, row, f"=WEEKNUM(B{column+1})")
+        elif row == 1:
+            if column == 0:
+                worksheet.write(column,row, "Data")
+            else:
+                date = dates[column-1]
+                days = (date - start_date).days
+                cell_format = workbook.add_format()
+                cell_format.set_num_format("d mmm yy")
+                worksheet.write(column, row, days, cell_format)
+        elif row == 2:
+            if column == 0:
+                worksheet.write(column, row, "Dzień")
+            else:
+                cell_format = workbook.add_format()
+                cell_format.set_num_format("ddd")
+                day = dates[column-1].strftime("%a")
+                worksheet.write(column, row, day,cell_format)
 
 
 workbook.close()
