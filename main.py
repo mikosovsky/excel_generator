@@ -40,15 +40,24 @@ start_date = datetime.datetime(1899, 12, 30)
 # Formats
 weekday_format = workbook.add_format()
 weekday_format.set_num_format("ddd")
-weekday_format.set_left(5)
-weekday_format.set_right(5)
+weekday_format.set_left(2)
+weekday_format.set_right(2)
 
 week_num_format = workbook.add_format()
-week_num_format.set_left(5)
-week_num_format.set_right(5)
+week_num_format.set_left(2)
+week_num_format.set_right(2)
 
 day_month_year_format = workbook.add_format()
 day_month_year_format.set_num_format("d mmm yy")
+
+empty_format = workbook.add_format()
+empty_format.set_bg_color("gray")
+
+name_format = workbook.add_format()
+name_format.set_left(5)
+name_format.set_right(5)
+name_format.set_bottom(5)
+name_format.set_top(5)
 
 # Loops to fill excel
 for column in range(columns_num):
@@ -56,9 +65,12 @@ for column in range(columns_num):
 
         # Week of year
         if column == 0:
+            # Empty cell
+            if row == 0:
+                worksheet.write(row,column,"",empty_format)
             # Name
-            if row == 1:
-                worksheet.write(row, column, "Tydz. roku")
+            elif row == 1:
+                worksheet.write(row, column, "Tydz. roku", name_format)
             # Values
             elif row > 1 and row < rows_num - 1:
                 worksheet.write(row, column, f"=WEEKNUM(B{row+1})", week_num_format)
@@ -66,16 +78,19 @@ for column in range(columns_num):
                 date = dates[row - 2]
                 days = (date - start_date).days
                 down_cell_format = workbook.add_format()
-                down_cell_format.set_left(5)
-                down_cell_format.set_right(5)
-                down_cell_format.set_bottom(5)
+                down_cell_format.set_left(2)
+                down_cell_format.set_right(2)
+                down_cell_format.set_bottom(2)
                 worksheet.write(row, column, f"=WEEKNUM(B{row+1})", down_cell_format)
 
         # Date
         elif column == 1:
+            # Empty cell
+            if row == 0:
+                worksheet.write(row, column, "", empty_format)
             # Name
-            if row == 1:
-                worksheet.write(row, column, "Data")
+            elif row == 1:
+                worksheet.write(row, column, "Data", name_format)
             # Values
             elif row > 1 and row < rows_num - 1:
                 date = dates[row-2]
@@ -86,14 +101,17 @@ for column in range(columns_num):
                 days = (date - start_date).days
                 cell_format = workbook.add_format()
                 cell_format.set_num_format("d mmm yy")
-                cell_format.set_bottom(5)
+                cell_format.set_bottom(2)
                 worksheet.write(row, column, days, cell_format)
 
         # Day of week
         elif column == 2:
+            # Empty cell
+            if row == 0:
+                worksheet.write(row, column, "", empty_format)
             # Name
-            if row == 1:
-                worksheet.write(row, column, "Dzień")
+            elif row == 1:
+                worksheet.write(row, column, "Dzień", name_format)
             # Values
             elif row > 1 and row < rows_num - 1:
                 date = dates[row - 2]
@@ -104,15 +122,15 @@ for column in range(columns_num):
                 days = (date - start_date).days
                 down_cell_format = workbook.add_format()
                 down_cell_format.set_num_format("ddd")
-                down_cell_format.set_left(5)
-                down_cell_format.set_right(5)
-                down_cell_format.set_bottom(5)
+                down_cell_format.set_left(2)
+                down_cell_format.set_right(2)
+                down_cell_format.set_bottom(2)
                 worksheet.write(row, column, days, down_cell_format)
 
         # Empty column
         elif row == 3:
             cell_format = workbook.add_format()
-            
+            cell_format
 
 
 workbook.close()
