@@ -58,8 +58,9 @@ for row in range(rows_num):
             else:
                 cell_format = workbook.add_format()
                 cell_format.set_num_format("ddd")
-                day = dates[column-1].strftime("%a")
-                worksheet.write(column, row, day,cell_format)
+                date = dates[column - 1]
+                days = (date - start_date).days
+                worksheet.write(column, row, days, cell_format)
 
 
 workbook.close()
