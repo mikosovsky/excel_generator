@@ -81,7 +81,7 @@ for column in range(columns_num):
             elif row == 1:
                 worksheet.write(row, column, "Tydz. roku", name_format)
             # Values
-            elif row > 1 and row < rows_num - 1:
+            elif 1 < row < rows_num - 1:
                 worksheet.write(row, column, f"=WEEKNUM(B{row+1})", week_num_format)
             elif row == rows_num - 1:
                 date = dates[row - 2]
@@ -101,7 +101,7 @@ for column in range(columns_num):
             elif row == 1:
                 worksheet.write(row, column, "Data", name_format)
             # Values
-            elif row > 1 and row < rows_num - 1:
+            elif 1 < row < rows_num - 1:
                 date = dates[row-2]
                 days = (date - start_date).days
                 worksheet.write(row, column, days, day_month_year_format)
@@ -122,7 +122,7 @@ for column in range(columns_num):
             elif row == 1:
                 worksheet.write(row, column, "Dzień", name_format)
             # Values
-            elif row > 1 and row < rows_num - 1:
+            elif 1 < row < rows_num - 1:
                 date = dates[row - 2]
                 days = (date - start_date).days
                 worksheet.write(row, column, days, weekday_format)
