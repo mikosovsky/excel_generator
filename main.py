@@ -37,10 +37,10 @@ for row in range(rows_num):
     for column in range(columns_num):
         if row == 0:
             if column == 0:
-                worksheet.write("Tydz. roku")
+                worksheet.write(column, row, "Tydz. roku")
             else:
-                worksheet.write
+                week_num = dates[column - 1].strftime("%V")
+                worksheet.write(column, row, week_num)
 
 
-worksheet.write(1,0,'Hello')
 workbook.close()
