@@ -59,6 +59,15 @@ name_format.set_right(5)
 name_format.set_bottom(5)
 name_format.set_top(5)
 
+person_format = workbook.add_format()
+person_format.set_left(5)
+person_format.set_right(5)
+person_format.set_bottom(5)
+person_format.set_top(5)
+person_format.set_bold(True)
+person_format.set_bg_color("yellow")
+person_format.set_align("center")
+
 # Loops to fill excel
 for column in range(columns_num):
     for row in range(rows_num):
@@ -130,6 +139,10 @@ for column in range(columns_num):
         # Empty column
         elif column == 3:
             worksheet.write(row, column, "", empty_format)
+        # 1st column of person
+        elif column > 3 and column % 3 == 1:
+            if row == 0:
+                worksheet.merge_range(row, column, row, column+2, people[int(column / 4 - 1)], person_format)
 
 
 workbook.close()
