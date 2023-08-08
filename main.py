@@ -2,7 +2,6 @@ import calendar
 import datetime
 import xlsxwriter
 
-start_date = datetime.datetime(1899, 12, 30)
 
 # Requesting for month and year
 month = int(input("Podaj miesiąc: "))
@@ -33,34 +32,39 @@ workbook_name = f"{month_name}.xlsx"
 workbook = xlsxwriter.Workbook(workbook_name)
 worksheet = workbook.add_worksheet()
 
+# Must have data for loops
 rows_num = 4 + people_quantity * 3
-columns_num = num_days + 1
+columns_num = num_days + 2
+start_date = datetime.datetime(1899, 12, 30)
+
 for row in range(rows_num):
     for column in range(columns_num):
         if row == 0:
-            if column == 0:
+            if column == 1:
                 worksheet.write(column, row, "Tydz. roku")
-            else:
-
+            elif column > 1:
                 worksheet.write(column, row, f"=WEEKNUM(B{column+1})")
         elif row == 1:
-            if column == 0:
+            if column == 1:
                 worksheet.write(column,row, "Data")
-            else:
-                date = dates[column-1]
+            elif column > 1:
+                date = dates[column-2]
                 days = (date - start_date).days
                 cell_format = workbook.add_format()
                 cell_format.set_num_format("d mmm yy")
                 worksheet.write(column, row, days, cell_format)
         elif row == 2:
-            if column == 0:
+            if column == 1:
                 worksheet.write(column, row, "Dzień")
-            else:
+            elif column > 1:
                 cell_format = workbook.add_format()
                 cell_format.set_num_format("ddd")
-                date = dates[column - 1]
+                date = dates[column - 2]
                 days = (date - start_date).days
                 worksheet.write(column, row, days, cell_format)
+        elif row == 3:
+            cell_format = workbook.add_format()
+
 
 
 workbook.close()
