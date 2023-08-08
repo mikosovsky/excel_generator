@@ -33,35 +33,46 @@ workbook = xlsxwriter.Workbook(workbook_name)
 worksheet = workbook.add_worksheet()
 
 # Must have data for loops
-rows_num = 4 + people_quantity * 3
-columns_num = num_days + 2
+rows_num = num_days + 2
+columns_num = 4 + people_quantity * 3
 start_date = datetime.datetime(1899, 12, 30)
 
-for row in range(rows_num):
-    for column in range(columns_num):
-        if row == 0:
-            if column == 1:
-                worksheet.write(column, row, "Tydz. roku")
-            elif column > 1:
-                worksheet.write(column, row, f"=WEEKNUM(B{column+1})")
-        elif row == 1:
-            if column == 1:
-                worksheet.write(column,row, "Data")
-            elif column > 1:
-                date = dates[column-2]
+# Formats
+weekday_format = workbook.add_format()
+weekday_format.set_num_format("ddd")
+weekday_format.set_left(5)
+weekday_format.set_right(5)
+
+week_num_format = workbook.add_format()
+week_num_format.set_num_format("ddd")
+weekday_format.set_left(5)
+weekday_format.set_right(5)
+
+for column in range(columns_num):
+    for row in range(rows_num):
+        if column == 0:
+            if row == 1:
+                worksheet.write(row, column, "Tydz. roku")
+            elif row > 1:
+                worksheet.write(row, column, f"=WEEKNUM(B{row+1})")
+        elif column == 1:
+            if row == 1:
+                worksheet.write(row, column, "Data")
+            elif row > 1:
+                date = dates[row-2]
                 days = (date - start_date).days
                 cell_format = workbook.add_format()
                 cell_format.set_num_format("d mmm yy")
-                worksheet.write(column, row, days, cell_format)
-        elif row == 2:
-            if column == 1:
-                worksheet.write(column, row, "Dzień")
-            elif column > 1:
-                cell_format = workbook.add_format()
-                cell_format.set_num_format("ddd")
-                date = dates[column - 2]
+                worksheet.write(row, column, days, cell_format)
+        elif column == 2:
+            if row == 1:
+                worksheet.write(row, column, "Dzień")
+            elif row > 1:
+                date = dates[row - 2]
                 days = (date - start_date).days
-                worksheet.write(column, row, days, cell_format)
+                if column == columns_num:
+                    weekday_format.set_bottom(5)
+                worksheet.write(row, column, days, weekday_format)
         elif row == 3:
             cell_format = workbook.add_format()
 
