@@ -4,13 +4,14 @@ import xlsxwriter
 import math
 from azureml.opendatasets import PublicHolidays
 
-indygo = "4B0082"
+indygo = "CCCCFF"
 light_gray = "C0C0C0"
+light_blue = "00CCFF"
 
 def column_to_char(value):
     return_value = ""
     if value <= 25:
-        return_value =  chr(65 + value)
+        return_value = chr(65 + value)
     else:
         return_value = chr(65 + int(math.floor(value / 26)) - 1) + chr(65 + value % 26)
     return return_value
@@ -74,7 +75,7 @@ day_month_year_format = workbook.add_format()
 day_month_year_format.set_num_format("d mmm yy")
 
 empty_format = workbook.add_format()
-empty_format.set_bg_color("gray")
+empty_format.set_bg_color(indygo)
 
 name_format = workbook.add_format()
 name_format.set_left(5)
@@ -88,7 +89,7 @@ person_format.set_right(5)
 person_format.set_bottom(5)
 person_format.set_top(5)
 person_format.set_bold(True)
-person_format.set_bg_color("yellow")
+person_format.set_bg_color(light_blue)
 person_format.set_align("center")
 
 person_info_format = workbook.add_format()
@@ -116,14 +117,14 @@ sum_time_format.set_num_format("h:mm")
 holiday_hour_format = workbook.add_format()
 holiday_hour_format.set_left(2)
 holiday_hour_format.set_right(2)
-holiday_hour_format.set_bg_color("red")
+holiday_hour_format.set_bg_color(light_gray)
 holiday_hour_format.set_align("center")
 
 holiday_end_hour_format = workbook.add_format()
 holiday_end_hour_format.set_left(2)
 holiday_end_hour_format.set_right(2)
 holiday_end_hour_format.set_bottom(2)
-holiday_end_hour_format.set_bg_color("red")
+holiday_end_hour_format.set_bg_color(light_gray)
 holiday_end_hour_format.set_align("center")
 
 summary_format = workbook.add_format()
@@ -158,7 +159,7 @@ for column in range(columns_num):
                     holiday_week_num_format = workbook.add_format()
                     holiday_week_num_format.set_left(2)
                     holiday_week_num_format.set_right(2)
-                    holiday_week_num_format.set_bg_color("red")
+                    holiday_week_num_format.set_bg_color(light_gray)
                     worksheet.write(row, column, f"=WEEKNUM(B{row + 1})", holiday_week_num_format)
                 else:
                     worksheet.write(row, column, f"=WEEKNUM(B{row + 1})", week_num_format)
@@ -170,7 +171,7 @@ for column in range(columns_num):
                 down_cell_format.set_right(2)
                 down_cell_format.set_bottom(2)
                 if row in holiday_rows:
-                    down_cell_format.set_bg_color("red")
+                    down_cell_format.set_bg_color(light_gray)
                     worksheet.write(row, column, f"=WEEKNUM(B{row + 1})", down_cell_format)
                 else:
                     worksheet.write(row, column, f"=WEEKNUM(B{row + 1})", down_cell_format)
@@ -191,7 +192,7 @@ for column in range(columns_num):
                     holiday_day_month_year_format = workbook.add_format()
                     holiday_day_month_year_format.set_left(2)
                     holiday_day_month_year_format.set_right(2)
-                    holiday_day_month_year_format.set_bg_color("red")
+                    holiday_day_month_year_format.set_bg_color(light_gray)
                     holiday_day_month_year_format.set_num_format("d mmm yy")
                     worksheet.write(row, column, days, holiday_day_month_year_format)
                 else:
@@ -203,7 +204,7 @@ for column in range(columns_num):
                 cell_format.set_num_format("d mmm yy")
                 cell_format.set_bottom(2)
                 if row in holiday_rows:
-                    cell_format.set_bg_color("red")
+                    cell_format.set_bg_color(light_gray)
                     worksheet.write(row, column, days, cell_format)
                 else:
                     worksheet.write(row, column, days, cell_format)
@@ -225,7 +226,7 @@ for column in range(columns_num):
                     holiday_weekday_format.set_left(2)
                     holiday_weekday_format.set_right(2)
                     holiday_weekday_format.set_num_format("ddd")
-                    holiday_weekday_format.set_bg_color("red")
+                    holiday_weekday_format.set_bg_color(light_gray)
                     worksheet.write(row,column,days,holiday_weekday_format)
                 else:
                     worksheet.write(row, column, days, weekday_format)
@@ -238,7 +239,7 @@ for column in range(columns_num):
                 down_cell_format.set_right(2)
                 down_cell_format.set_bottom(2)
                 if row in holiday_rows:
-                    down_cell_format.set_bg_color("red")
+                    down_cell_format.set_bg_color(light_gray)
                     worksheet.write(row, column, days, down_cell_format)
                 else:
                     worksheet.write(row, column, days, down_cell_format)
