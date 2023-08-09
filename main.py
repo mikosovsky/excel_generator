@@ -4,6 +4,9 @@ import xlsxwriter
 import math
 from azureml.opendatasets import PublicHolidays
 
+indygo = "4B0082"
+light_gray = "C0C0C0"
+
 def column_to_char(value):
     return_value = ""
     if value <= 25:
@@ -122,6 +125,17 @@ holiday_end_hour_format.set_right(2)
 holiday_end_hour_format.set_bottom(2)
 holiday_end_hour_format.set_bg_color("red")
 holiday_end_hour_format.set_align("center")
+
+summary_format = workbook.add_format()
+summary_format.set_left(2)
+summary_format.set_bottom(2)
+summary_format.set_align("right")
+
+sum_value_format = workbook.add_format()
+sum_value_format.set_bottom(2)
+sum_value_format.set_right(2)
+sum_value_format.set_num_format("h:mm")
+
 
 # Loops to fill excel
 for column in range(columns_num):
@@ -265,6 +279,8 @@ for column in range(columns_num):
                 else:
                     worksheet.write(row, column, "", end_hour_format)
 
+                worksheet.write(rows_num, column, "SUMA:", summary_format)
+
         # 3rd column of person
         elif column > 3 and column % 3 == 0:
             if row == 1:
@@ -287,5 +303,7 @@ for column in range(columns_num):
                     down_cell_format.set_right(2)
                     down_cell_format.set_bottom(2)
                     worksheet.write(row, column, f"={second_column}{row + 1} - {first_column}{row + 1}", down_cell_format)
+                sum_column = column_to_char(column)
+                worksheet.write(rows_num, column, f"=SUM({sum_column}3:{sum_column}{row+1})", sum_value_format)
 
 workbook.close()
