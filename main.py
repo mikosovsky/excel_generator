@@ -2,6 +2,7 @@ import calendar
 import datetime
 import xlsxwriter
 import math
+from azureml.opendatasets import PublicHolidays
 
 def column_to_char(value):
     return_value = ""
@@ -10,7 +11,6 @@ def column_to_char(value):
     else:
         return_value = chr(65 + int(math.floor(value / 26)) - 1) + chr(65 + value % 26)
     return return_value
-
 
 # Requesting for month and year
 month = int(input("Podaj miesiąc: "))
@@ -32,8 +32,12 @@ for i in range(people_quantity):
     person = input(f"Podaj dane {i+1}. osoby: ")
     people.append(person)
 
-my_date = datetime.datetime.now()
-my_date = my_date.strftime("%d %b %y")
+# Download holidays from Microsoft server
+end_date = dates[len(dates) - 1]
+start_date = dates[0]
+hol = PublicHolidays(country_or_region = 'PL', start_date=start_date, end_date=end_date)
+hol_df = hol.to_pandas_dataframe()
+print(hol_df["date"].tolist())
 
 # Creating excel file
 month_name = dates[0].strftime("%B")
@@ -174,7 +178,7 @@ for column in range(columns_num):
         # 1st column of person
         elif column > 3 and column % 3 == 1:
             if row == 0:
-                worksheet.merge_range(row, column, row, column+2, people[int(column / 4 - 1)], person_format)
+                worksheet.merge_range(row, column, row, column+2, people[int(column / 3 - 1)], person_format)
             elif row == 1:
                 worksheet.write(row, column, "Od", person_info_format)
             elif row < rows_num - 1:
