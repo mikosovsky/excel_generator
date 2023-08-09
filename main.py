@@ -114,12 +114,14 @@ holiday_hour_format = workbook.add_format()
 holiday_hour_format.set_left(2)
 holiday_hour_format.set_right(2)
 holiday_hour_format.set_bg_color("red")
+holiday_hour_format.set_align("center")
 
 holiday_end_hour_format = workbook.add_format()
 holiday_end_hour_format.set_left(2)
 holiday_end_hour_format.set_right(2)
 holiday_end_hour_format.set_bottom(2)
 holiday_end_hour_format.set_bg_color("red")
+holiday_end_hour_format.set_align("center")
 
 # Loops to fill excel
 for column in range(columns_num):
@@ -239,12 +241,12 @@ for column in range(columns_num):
                 worksheet.write(row, column, "Od", person_info_format)
             elif row < rows_num - 1:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_hour_format)
+                    worksheet.write(row, column, "", holiday_hour_format)
                 else:
                     worksheet.write(row, column, "", hour_format)
             else:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_end_hour_format)
+                    worksheet.write(row, column, "", holiday_end_hour_format)
                 else:
                     worksheet.write(row, column, "", end_hour_format)
 
@@ -254,12 +256,12 @@ for column in range(columns_num):
                 worksheet.write(row, column, "Do", person_info_format)
             elif 1 < row < rows_num - 1:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_hour_format)
+                    worksheet.write(row, column, "", holiday_hour_format)
                 else:
                     worksheet.write(row, column, "", hour_format)
             elif row == rows_num - 1:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_end_hour_format)
+                    worksheet.write(row, column, "", holiday_end_hour_format)
                 else:
                     worksheet.write(row, column, "", end_hour_format)
 
@@ -269,14 +271,14 @@ for column in range(columns_num):
                 worksheet.write(row, column, "Suma", person_info_format)
             elif 1 < row < rows_num - 1:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_hour_format)
+                    worksheet.write(row, column, "", holiday_hour_format)
                 else:
                     first_column = column_to_char(column - 2)
                     second_column = column_to_char(column - 1)
                     worksheet.write(row, column, f"={second_column}{row+1} - {first_column}{row+1}", sum_time_format)
             elif row == rows_num - 1:
                 if row in holiday_rows:
-                    worksheet.write(row, column, "WOLNE", holiday_end_hour_format)
+                    worksheet.write(row, column, "", holiday_end_hour_format)
                 else:
                     first_column = column_to_char(column - 2)
                     second_column = column_to_char(column - 1)
