@@ -4,9 +4,9 @@ import xlsxwriter
 import math
 from azureml.opendatasets import PublicHolidays
 
-indygo = "CCCCFF"
-light_gray = "C0C0C0"
-light_blue = "00CCFF"
+indygo = "4c5d93"
+light_gray = "7f7f7f"
+light_blue = "79b1e2"
 
 def column_to_char(value):
     return_value = ""
