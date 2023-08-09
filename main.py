@@ -1,6 +1,15 @@
 import calendar
 import datetime
 import xlsxwriter
+import math
+
+def column_to_char(value):
+    return_value = ""
+    if value <= 25:
+        return_value =  chr(65 + value)
+    else:
+        return_value = chr(65 + int(math.floor(value / 26)) - 1) + chr(65 + value % 26)
+    return return_value
 
 
 # Requesting for month and year
@@ -85,6 +94,10 @@ end_hour_format.set_left(2)
 end_hour_format.set_right(2)
 end_hour_format.set_bottom(2)
 end_hour_format.set_num_format("h:mm")
+
+sum_time_format = workbook.add_format()
+sum_time_format.set_right(2)
+sum_time_format.set_num_format("h:mm")
 
 # Loops to fill excel
 for column in range(columns_num):
@@ -177,5 +190,20 @@ for column in range(columns_num):
                 worksheet.write(row, column, "", hour_format)
             elif row == rows_num - 1:
                 worksheet.write(row, column, "", end_hour_format)
+        elif column > 3 and column % 3 == 0:
+            if row == 1:
+                worksheet.write(row, column, "Suma", person_info_format)
+            elif 1 < row < rows_num - 1:
+                first_column = column_to_char(column - 2)
+                second_column = column_to_char(column - 1)
+                worksheet.write(row, column, f"={second_column}{row+1} - {first_column}{row+1}", sum_time_format)
+            elif row == rows_num - 1:
+                first_column = column_to_char(column - 2)
+                second_column = column_to_char(column - 1)
+                down_cell_format = workbook.add_format()
+                down_cell_format.set_num_format("h:mm")
+                down_cell_format.set_right(2)
+                down_cell_format.set_bottom(2)
+                worksheet.write(row, column, f"={second_column}{row + 1} - {first_column}{row + 1}", down_cell_format)
 
 workbook.close()
