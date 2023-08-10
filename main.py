@@ -4,7 +4,7 @@ import xlsxwriter
 import math
 from azureml.opendatasets import PublicHolidays
 
-indygo = "4c5d93"
+indigo = "4c5d93"
 light_gray = "7f7f7f"
 light_blue = "79b1e2"
 
@@ -75,7 +75,7 @@ day_month_year_format = workbook.add_format()
 day_month_year_format.set_num_format("d mmm yy")
 
 empty_format = workbook.add_format()
-empty_format.set_bg_color(indygo)
+empty_format.set_bg_color(indigo)
 
 name_format = workbook.add_format()
 name_format.set_left(5)
