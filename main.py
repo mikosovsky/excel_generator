@@ -19,6 +19,11 @@ layout = [
         sg.CalendarButton(button_text= "Calendar",format="%m-%Y",button_color="#C7C7CC", target="-CAL-")
     ],
     [
+        sg.Text("Choose location to save excel: ", background_color="#FFFFFF", text_color="#000000"),
+        sg.Input(size=(30, 1), enable_events=True, key="-FOLDER-", background_color="#FFFFFF", text_color="#000000"),
+        sg.FolderBrowse(button_color="#C7C7CC", target="-FOLDER-")
+    ],
+    [
       sg.Button(button_text="Save & Generate", button_color="#C7C7CC", key="-READY-")
     ],
     [
@@ -26,7 +31,7 @@ layout = [
     ]
 ]
 
-window = sg.Window(title="Excel generator", layout=layout, background_color="#FFFFFF", size=(600, 500), element_justification="c", element_padding=15)
+window = sg.Window(title="Excel generator", layout=layout, background_color="#FFFFFF", size=(600, 550), element_justification="c", element_padding=15)
 
 excel_generator = ExcelGenerator.ExcelGenerator()
 
@@ -62,7 +67,14 @@ while True:
             if date != "" and len(date.split("-")) == 2:
                 date = date.split("-")
                 excel_generator.change_month(int(date[0]), int(date[1]))
-                excel_generator.generate_excel()
+                if values["-FOLDER-"] != "":
+                    path = values["-FOLDER-"]
+                    if os.path.exists(path):
+                        excel_generator.generate_excel(path)
+                    else:
+                        sg.popup_error("Choose right path to save excel!")
+                else:
+                    sg.popup_error("Set path to save excel!")
             else:
                 sg.popup_error("Choose right date!")
         else:

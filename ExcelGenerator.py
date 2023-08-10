@@ -157,11 +157,11 @@ class ExcelGenerator:
             return_value = chr(65 + int(math.floor(value / 26)) - 1) + chr(65 + value % 26)
         return return_value
 
-    def generate_excel(self):
+    def generate_excel(self, path):
         # Creating excel file
         month_name = self.dates[0].strftime("%B")
         workbook_name = f"{month_name}.xlsx"
-        workbook = xlsxwriter.Workbook(workbook_name)
+        workbook = xlsxwriter.Workbook(path + "/" + workbook_name)
         worksheet = workbook.add_worksheet()
 
         # Must-have data for loops
