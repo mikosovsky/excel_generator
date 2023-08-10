@@ -28,6 +28,8 @@ layout = [
 
 window = sg.Window(title="Excel generator", layout=layout, background_color="#FFFFFF", size=(600, 500), element_justification="c", element_padding=15)
 
+excel_generator = ExcelGenerator.ExcelGenerator()
+
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
@@ -42,8 +44,32 @@ while True:
         except FileNotFoundError:
             window["-FILE LIST-"].update("")
 
+    if event == "-READY-":
+        people = values["-FILE LIST-"]
+
+        if people != "":
+
+            if values["-FILE-"] != "":
+                file = values["-FILE-"]
+                with open(file, "w+") as names_file:
+                    names_file.write(people)
+
+            people = people.split("\n")
+            excel_generator.change_people_list(people
+                                               )
+            date = values["-CAL-"]
+
+            if date != "" and len(date.split("-")) == 2:
+                date = date.split("-")
+                excel_generator.change_month(int(date[0]), int(date[1]))
+                excel_generator.generate_excel()
+            else:
+                sg.popup_error("Choose right date!")
+        else:
+            sg.popup_error("Choose the file or fill up textbox with content!")
+
 # # Requesting for month and year
-# excel_generator = ExcelGenerator.ExcelGenerator()
+#
 # month = int(input("Podaj miesiąc: "))
 # year = int(input("Podaj rok: "))
 #
