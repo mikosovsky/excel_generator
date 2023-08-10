@@ -14,7 +14,7 @@ class ExcelGenerator:
     def __init__(self):
         self.people = None
         self.dates = []
-        self.holiday_list = []
+        self.holiday_rows = []
 
     def change_month(self, month: int, year: int):
         num_days = calendar.monthrange(year, month)[1]
@@ -33,9 +33,9 @@ class ExcelGenerator:
         start_date = self.dates[0]
         hol = PublicHolidays(country_or_region='PL', start_date=start_date, end_date=end_date)
         hol_df = hol.to_pandas_dataframe()
-        self.holiday_list = hol_df["date"].tolist()
+        holiday_list = hol_df["date"].tolist()
         # Making list of rows with holiday in month
         for date in self.dates:
-            if date.weekday() == 5 or date.weekday() == 6 or date in self.holiday_list:
+            if date.weekday() == 5 or date.weekday() == 6 or date in holiday_list:
                 day = date.day
                 self.holiday_rows.append(day + 1)
