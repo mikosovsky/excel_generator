@@ -1,6 +1,6 @@
 import ExcelGenerator
 import PySimpleGUI as sg
-import os.path
+import os
 
 layout = [
     [
@@ -9,8 +9,8 @@ layout = [
         sg.FileBrowse(button_color="#C7C7CC", file_types=(("Text Files", "*.txt")), target="-FILE-")
     ],
     [
-        sg.Listbox(
-            values=[], enable_events=True, size=(500, 20), key = "-FILE LIST-", text_color="#000000", background_color="#FFFFFF"
+        sg.Multiline(
+            enable_events=True, size=(500, 20), key = "-FILE LIST-", text_color="#000000", background_color="#FFFFFF"
         )
     ],
     [
@@ -27,6 +27,7 @@ layout = [
 ]
 
 window = sg.Window(title="Excel generator", layout=layout, background_color="#FFFFFF", size=(600, 500), element_justification="c", element_padding=15)
+
 while True:
     event, values = window.read()
     if event == sg.WIN_CLOSED:
@@ -34,7 +35,12 @@ while True:
 
     if event == "-FILE-":
         file = values["-FILE-"]
-        print(file)
+        try:
+            with open(file, "r+") as names_file:
+                names_list = names_file.read()
+                window["-FILE LIST-"].update(names_list)
+        except FileNotFoundError:
+            window["-FILE LIST-"].update("")
 
 # # Requesting for month and year
 # excel_generator = ExcelGenerator.ExcelGenerator()
