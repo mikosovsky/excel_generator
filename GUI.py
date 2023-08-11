@@ -69,6 +69,25 @@ class GUI:
                             names_file.write(people)
 
                     people = people.split("\n")
+                    people_backup = []
+                    for person in people:
+                        if person.find(";"):
+                            person_splited = person.split(";")
+                            for ps in person_splited:
+                                if ps.find(","):
+                                    person_splited1 = ps.split(",")
+                                    people_backup += person_splited1
+                                else:
+                                    people_backup.append(ps)
+
+                        elif person.find(","):
+                            person_splited = person.split(",")
+                            people_backup += person_splited
+                        else:
+                            people_backup.append(person)
+
+
+                    people = people_backup
                     self.excel_generator.change_people_list(people)
                     date = values["-CAL-"]
 

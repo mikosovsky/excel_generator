@@ -38,7 +38,7 @@ class ExcelGenerator:
         start_date = self.dates[0]
         holiday_list = holidays.holiday_list
         self.holiday_rows = []
-        
+
         # Making list of rows with holiday in month
         for date in self.dates:
             if date.weekday() == 5 or date.weekday() == 6 or date in holiday_list:

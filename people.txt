@@ -1,9 +1,4 @@
-Miki
-Kapi
-Ola
-Maciek
-Olek
-Jasiu
-Robert
-Marcel
+Miki, Kapi, Ola; Maciek
+Olek; Jasiu
+Robert, Marcel
 Kordek
