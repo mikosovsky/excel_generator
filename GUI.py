@@ -65,8 +65,7 @@ class GUI:
 
                     if values["-FILE-"] != "":
                         file = values["-FILE-"]
-                        with open(file, "w+") as names_file:
-                            names_file.write(people)
+
 
                     people = people.split("\n")
                     people_backup = []
@@ -88,6 +87,19 @@ class GUI:
 
 
                     people = people_backup
+                    people_backup = []
+                    for person in people:
+                        while person[0] == " ":
+                            person = person.replace(" ", "", 1)
+                        people_backup.append(person)
+
+                    people = people_backup
+                    people_file = ""
+                    for person in people:
+                        people_file +=f"{person}\n"
+
+                    with open(file, "w+") as names_file:
+                        names_file.write(people_file)
                     self.excel_generator.change_people_list(people)
                     date = values["-CAL-"]
 

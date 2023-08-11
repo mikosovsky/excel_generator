@@ -163,7 +163,6 @@ class ExcelGenerator:
         # Creating excel file
         month_name = self.dates[0].strftime("%B")
         workbook_name = f"{month_name}.xlsx"
-        print(workbook_name)
         workbook = xlsxwriter.Workbook(path + "/" + workbook_name)
         worksheet = workbook.add_worksheet()
 
