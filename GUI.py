@@ -69,8 +69,7 @@ class GUI:
                             names_file.write(people)
 
                     people = people.split("\n")
-                    self.excel_generator.change_people_list(people
-                                                       )
+                    self.excel_generator.change_people_list(people)
                     date = values["-CAL-"]
 
                     if date != "" and len(date.split("-")) == 2:

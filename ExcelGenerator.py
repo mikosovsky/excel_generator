@@ -2,7 +2,8 @@ import calendar
 import datetime
 import xlsxwriter
 import math
-from azureml.opendatasets import PublicHolidays
+
+import Holidays
 
 
 class ExcelGenerator:
@@ -18,6 +19,7 @@ class ExcelGenerator:
 
     def change_month(self, month: int, year: int):
         num_days = calendar.monthrange(year, month)[1]
+        self.dates = []
 
         # Making list of days in month
         for day in range(1, num_days + 1):
@@ -30,13 +32,13 @@ class ExcelGenerator:
 
     def __make_holiday_rows_list(self):
         # Download holidays from Microsoft server
+        holidays = Holidays.Holidays()
         num_end_date = len(self.dates) - 1
         end_date = self.dates[num_end_date]
         start_date = self.dates[0]
-        hol = PublicHolidays(country_or_region='PL', start_date=start_date, end_date=end_date)
-        hol_df = hol.to_pandas_dataframe()
-        holiday_list = hol_df["date"].tolist()
-
+        holiday_list = holidays.holiday_list
+        self.holiday_rows = []
+        
         # Making list of rows with holiday in month
         for date in self.dates:
             if date.weekday() == 5 or date.weekday() == 6 or date in holiday_list:
@@ -161,6 +163,7 @@ class ExcelGenerator:
         # Creating excel file
         month_name = self.dates[0].strftime("%B")
         workbook_name = f"{month_name}.xlsx"
+        print(workbook_name)
         workbook = xlsxwriter.Workbook(path + "/" + workbook_name)
         worksheet = workbook.add_worksheet()
 
