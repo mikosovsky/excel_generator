@@ -4,6 +4,7 @@ import os
 
 
 class GUI:
+    # Initiator of class. Creating whole layout, window and ExcelGenerator class
     def __init__(self):
         self.layout = [
             [
@@ -43,12 +44,16 @@ class GUI:
 
         self.excel_generator = ExcelGenerator.ExcelGenerator()
 
+    # Function to start showing window
     def window_loop(self):
+        # Window loop
         while True:
             event, values = self.window.read()
+            # Execute program after close window
             if event == sg.WIN_CLOSED:
                 break
 
+            # Path textbox edited
             if event == "-FILE-":
                 file = values["-FILE-"]
                 try:
@@ -58,12 +63,13 @@ class GUI:
                 except FileNotFoundError:
                     self.window["-FILE LIST-"].update("")
 
+            # Button Save & Generate was clicked and generating excel
             if event == "-READY-":
                 people = values["-FILE LIST-"]
 
                 if people != "":
 
-
+                    # Getting list of people in textBox "-FILE LIST-" and spliting it in 3 ways by new lines, commas and semicolons
                     people = people.split("\n")
                     people_backup = []
                     for person in people:
@@ -83,6 +89,7 @@ class GUI:
                             people_backup.append(person)
 
 
+                    # Clearing people list by deleting useless spaces
                     people = people_backup
                     people_backup = []
                     for person in people:
@@ -95,20 +102,26 @@ class GUI:
                     for person in people:
                         people_file +=f"{person}\n"
 
+                    # Saving list of people in file (only if something is in "-FILE-" input)
                     if values["-FILE-"] != "":
                         file = values["-FILE-"]
                         with open(file, "w+") as names_file:
                             names_file.write(people_file)
-                            
+
+                    # Setting people list
                     self.excel_generator.change_people_list(people)
+
+                    # Getting date from calendar
                     date = values["-CAL-"]
 
                     if date != "" and len(date.split("-")) == 2:
                         date = date.split("-")
+                        # Setting month and year in excel_generator
                         self.excel_generator.change_month(int(date[0]), int(date[1]))
                         if values["-FOLDER-"] != "":
                             path = values["-FOLDER-"]
                             if os.path.exists(path):
+                                #Generating excel
                                 self.excel_generator.generate_excel(path)
                             else:
                                 sg.popup_error("Choose right path to save excel!")
