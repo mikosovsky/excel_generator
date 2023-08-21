@@ -31,7 +31,7 @@ class ExcelGenerator:
         self.people = people
 
     def __make_holiday_rows_list(self):
-        # Download holidays from Microsoft server
+        # Get holidays from Holidays class
         holidays = Holidays.Holidays()
         num_end_date = len(self.dates) - 1
         end_date = self.dates[num_end_date]
@@ -45,6 +45,8 @@ class ExcelGenerator:
                 day = date.day
                 self.holiday_rows.append(day + 1)
 
+
+    # Here are cell formats functions
     @staticmethod
     def __weekday_format_init(weekday_format):
         weekday_format.set_num_format("ddd")
@@ -151,7 +153,7 @@ class ExcelGenerator:
         return holiday_week_num_format
 
     @staticmethod
-    def column_to_char(value):
+    def __column_to_char(value):
         return_value = ""
         if value <= 25:
             return_value = chr(65 + value)
@@ -359,23 +361,23 @@ class ExcelGenerator:
                         if row in self.holiday_rows:
                             worksheet.write(row, column, "", holiday_hour_format)
                         else:
-                            first_column = self.column_to_char(column - 2)
-                            second_column = self.column_to_char(column - 1)
+                            first_column = self.__column_to_char(column - 2)
+                            second_column = self.__column_to_char(column - 1)
                             worksheet.write(row, column, f"={second_column}{row + 1} - {first_column}{row + 1}",
                                             sum_time_format)
                     elif row == rows_num - 1:
                         if row in self.holiday_rows:
                             worksheet.write(row, column, "", holiday_end_hour_format)
                         else:
-                            first_column = self.column_to_char(column - 2)
-                            second_column = self.column_to_char(column - 1)
+                            first_column = self.__column_to_char(column - 2)
+                            second_column = self.__column_to_char(column - 1)
                             down_cell_format = workbook.add_format()
                             down_cell_format.set_num_format("h:mm")
                             down_cell_format.set_right(2)
                             down_cell_format.set_bottom(2)
                             worksheet.write(row, column, f"={second_column}{row + 1} - {first_column}{row + 1}",
                                             down_cell_format)
-                        sum_column = self.column_to_char(column)
+                        sum_column = self.__column_to_char(column)
                         worksheet.write(rows_num, column, f"=SUM({sum_column}3:{sum_column}{row + 1})",
                                         sum_value_format)
         workbook.close()
