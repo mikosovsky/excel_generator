@@ -1,9 +1,9 @@
 # SINGLE WINDOW EXCEL GENERATOR APP
 
 ### Links to topics:
-* [ExcelGenerator](##ExcelGenerator)
-* [GUI](##GUI)
-* [Holidays](##Holidays)
+* [ExcelGenerator](#ExcelGenerator)
+* [GUI](#GUI)
+* [Holidays](#Holidays)
 
 
 
